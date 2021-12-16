@@ -1,0 +1,506 @@
+Linear data structure :
+
+
+- Array.
+An array is a collection of items stored at contiguous memory locations. The idea is to store multiple items of the same type together. 
+This makes it easier to calculate the position of each element by simply adding an offset to a base value, i.e., 
+the memory location of the first element of the array (generally denoted by the name of the array).
+
+Practicing with arrays:
+ALGORITHM traverse_array
+VAR
+   tab : ARRAY_OF INTEGER[5]; // declaring the array and define its length.
+   i : INTEGER; // declaring the index for each element in the array.
+BEGIN
+  tab := {1,2,3,5,7,8}; // inserting the elements directly in the array.
+  Write('Print Array :')
+  FOR i FROM 0 TO 4 STEP 1  DO   // the index of arrays start from 0;
+     Write(tab[i]) // to access the element, we use the name_array[indexation]
+  END_FOR
+
+// another version
+   FOR i FROM 0 TO tab.length-1 STEP 1  DO
+   // here we can replace the static
+   //number in the max field using the `.length` property
+       Write(tab[i])
+   END_FOR
+END
+
+
+ALGORITHM insertion_array
+VAR
+   tab : ARRAY_OF INTEGER[5];
+   i,j, pos, elt : INTEGER;
+BEGIN
+   FOR i FROM 0 TO 3 DO
+       Read(tab[i]);// insert from user
+   END_FOR
+
+   Write("give the element to insert");
+   Read(elt);
+   Write("give the position to insert in array");
+   Read(pos);
+   j := tab.length;
+   WHILE (j >= pos) DO
+       tab[j+1] := tab[j]; // translation from left to right
+       j := j-1; // update index
+   END_WHILE
+
+   tab[pos] := elt;
+   // remember the tab.length is increased by 1.
+END
+
+ALGORITHM search_array
+VAR
+   tab : ARRAY_OF INTEGER[5];
+   i,j, pos, elt : INTEGER;
+BEGIN
+   FOR i FROM 0 TO 4 DO
+       Read(tab[i]);// insert from user
+   END_FOR
+
+   Write("give the element to search of");
+   Read(elt);
+
+   j := 0;
+   WHILE (j < tab.length) DO
+       IF (tab[j] = elt) THEN
+           BREAK; // element is found let break the loop
+       END_IF
+       j := j+1; // update index
+   END_WHILE
+
+   IF (j = tab.length) THEN  // we reached the end of array without finding the element
+       pos := -1; // -1 means we don't find the element.
+   ELSE
+       pos := j;
+   END_IF
+
+   Write("The position of the element is ", pos);
+END
+
+
+ALGORITHM deletion_array
+VAR
+   tab : ARRAY_OF INTEGER[5];
+   i,j, pos : INTEGER;
+BEGIN
+   FOR i FROM 0 TO 4 DO
+       Read(tab[i]);// insert from user
+   END_FOR
+
+   Write("give the position to delete");
+   Read(pos);
+
+   j := pos;
+   WHILE (j < tab.length) DO
+       tab[j] := tab[j+1]; // translation from right to left
+       j := j+1; // update index
+   END_WHILE
+
+   // remember the tab.length is decreased by 1.
+
+END
+
+
+
+- Matrix
+A two-dimensional array is an one-dimensional array, where in each case we have an one-dimensional array.
+matrix_name : ARRAY_OF type[nb_line][nb_column];
+
+m : ARRAY_OF INTEGER[M][N];
+FOR i FROM 0 TO M-1 DO
+    FOR j FROM 0 TO N-1 DO
+        m[i][j] :=0;
+    END_FOR
+END_FOR
+
+a : ARRAY_OF FLOAT[M][N];
+b : ARRAY_OF FLOAT[N][O];
+c : ARRAY_OF FLOAT[M][O];
+FOR i FROM 0 TO M-1 DO
+    FOR j FROM 0 TO O-1 DO
+        FOR k FROM 0 TO N-1 DO
+            // Compute dot product of row i and column j
+            c[i][j] := c[i][j] + a[i][k] *b[k][j];
+        END_FOR
+    END_FOR
+END_FOR
+
+-String
+A string is a sequence of characters. In other words, a string is an array of character data type.
+
+str_name : STRING[size];
+
+str : STRING[] := "GoMyCode";
+str : STRING[50] := "GoMyCode";
+str : STRING[] := {'G','o','M','y','C','o','d','e'};
+
+
+
+
+ALGORITHM compare_two_strings
+VAR
+   str1, str2, : STRING[50];
+   i : INTEGER;
+BEGIN
+   Write("Give the first string to compare");
+   Read(str1);
+   Write("Give the second string to compare");
+   Read(str2);
+
+   IF (str1.length <> str2.length) THEN
+   // if the length of the two string is different we can make sure that they are not equal
+       Write("The Strings are not equals");
+   ELSE
+       FOR i FROM 0 TO str1.length-1 STEP 1 DO
+           IF (str1[i]<>str2[i]) THEN
+               BREAK;// we break if in the same position the caracters of two strings are different
+           END_IF
+       END_FOR
+       IF (i = str1.length) THEN
+           Write("The Strings are equals");
+       ELSE
+           Write("The Strings are not equals");
+       END_IF
+   END_IF
+  
+END
+
+
+ALGORITHM compare_ignore_two_strings
+VAR
+   str1, str2, : STRING[50];
+   i : INTEGER;
+BEGIN
+   Write("Give the first string to compare");
+   Read(str1);
+   Write("Give the second string to compare");
+   Read(str2);
+
+   IF (str1.length <> str2.length) THEN
+       Write("The Strings are not equals");
+   ELSE
+       str1 := ToUpper(str1); // this function will convert the character into uppercase
+       str2 := ToUpper(str2);
+       FOR i FROM 0 TO str1.length-1 STEP 1 DO
+           IF (str1[i]<>str2[2]) THEN
+               BREAK;
+           END_IF
+       END_FOR
+       IF (i = str1.length-1) THEN
+           Write("The Strings are equals");
+       ELSE
+           Write("The Strings are not equals");
+       END_IF
+   END_IF
+  
+END
+
+ALGORITHM delete_blank_begin
+VAR
+   str : STRING[] := "   GoMyCode";
+   i : INTEGER := 0;
+   j : INTEGER := 0;
+BEGIN
+   WHILE ( str[0]=' ') DO
+       j := 0;
+       WHILE (j < str.length) DO
+           str[j] := str[j+1]; // translation from right to left
+           j := j+1; // update index
+       END_WHILE
+   END_WHILE
+END
+
+
+-What is a structure or a record ?
+
+A structure is a user defined data type. A structure creates a data type that can be used to group items of possibly different 
+types into a single type.
+
+The number of components is fixed.
+Component = Field.
+Field type can be simple or structured.
+How to create a structure?
+‘STRUCT’ keyword is used to create a structure. Following is an example.
+
+struct_name :       STRUCT
+                        field_name : type;
+                        field_name : type;
+                    END_STRUCT
+
+- How to initialize structure fields?
+Structure fields cannot be initialized within the declaration. After creation of the struct variable, then we initialize its fields.
+
+How to access structure elements?
+Structure fields are accessed using dot (.) operator. If the field is also a struct its fields will be accessed using dot also.
+
+// person is a variable of the Person struct
+    person.age; // age is an integer.
+    person.address.street; // address is a struct, and its field
+// street is a string.
+
+- What is an array of structures?
+Like other primitive data types, we can create an array of structures.
+
+ALGORITHM array_struct_exp
+VAR
+    Point : STRUCT
+                x : INTEGER;
+                y : INTEGER;
+            END_STRUCT
+    arr : ARRAY_OF Point[10];
+BEGIN
+    arr[0].x := 10;
+    arr[0].y := 20;
+
+    Write(arr[0].x, arr[0].y);
+END
+
+
+-Stacks and Queues:
+Basic Operations
+
+push() − Pushing (storing) an element on the stack.
+pop() − Removing (accessing) an element from the stack.
+peek() − get the top data element of the stack, without removing it.
+isEmpty() − check if stack is empty.
+
+
+Basic Operations
+
+enqueue() − add (store) an item to the queue.
+dequeue() − remove (access) an item from the queue.
+peek() − Gets the element at the front of the queue without removing it.
+isEmpty() − Checks if the queue is empty.
+
+
+We will write an algorithm that uses a stack to test for balanced parentheses when scanning the following expressions.
+The solution should show the state of the stack each time it’s modified.
+The “state of the stack” must indicate which is the top element.
+Only consider the parentheses [,],(,),{,}. Ignore the variables and operators.
+(a) [ a + { b / ( c - d ) + e / (f + g ) } - h ]#
+(b) [ a { b + [ c ( d + e ) - f ] + g }#
+
+ALGORITHM valid_parentheses
+VAR
+   state_stack : CHAR;
+   c : CHAR := ' ';
+   stk : STACK;
+   wrong : BOOLEAN := FALSE;
+BEGIN
+   WHILE (c <> '#' AND NOT wrong) DO
+       Read(c);
+       SWITCH (c) DO
+           case '[':
+           case '{':
+           case '(': stk.push(c);
+                           state_stack := stk.peek(); // peek do not affect the stack.
+                           Write(state_stack);
+                           BREAK;
+           case ']': IF (stp.peek()='[') THEN
+                               state_stack := stk.pop(); // pop do not affect the stack.
+                               Write(state_stack);
+                           ELSE
+                               wrong := TRUE;
+                           END_IF 
+                           BREAK;
+           case ')': IF (stp.peek()='(') THEN
+                               state_stack := stk.pop(); // pop do not affect the stack.
+                               Write(state_stack);
+                           ELSE
+                               wrong := TRUE;   
+                           END_IF 
+                           BREAK;
+           case '}': IF (stp.peek()='{') THEN
+                               state_stack := stk.pop(); // pop do not affect the stack.
+                               Write(state_stack);
+                           ELSE
+                               wrong := TRUE;
+                           END_IF 
+                           BREAK;
+                          
+       END_SWITCH
+
+      
+   END_WHILE
+
+   IF (stk.isEmpty() AND NOT wrong) THEN
+       Write("Empty stack, so brackets match.");
+   ELSE
+       Write("Stack not empty, so brackets don’t match.");
+   END_IF
+END
+
+
+The second example
+We are going to use the queue to Invert a stack
+One possible application of a queue is to reverse the order of the elements of a stack.
+Indeed, it is enough to pop all the elements of the stack,
+then to re-push them in the order where they came out.
+We will, therefore, use a queue as intermediate storage.
+
+ALGORITHM inverse_stack
+VAR
+   stk : STACK;
+   qu  : QUEUE;
+BEGIN
+   // fill the stack
+
+   WHILE (NOT stk.isEmpty()) DO
+       qu.enqueue(stk.pop());
+   END_WHILE
+
+   WHILE (NOT qu.isEmpty()) DO
+       stk.push(qu.dequeue());
+   END_WHILE
+
+END
+
+
+-Hash Tables:
+We can use the hash table in many applications like ( Building dictionaries, checking spells, ...).
+We can use the hash table in any situation we want to find items very fast.
+
+Hash table is data structure in which insertion and search operations are very fast irrespective of the size of the data.
+Hash Table uses an array as a storage medium and uses a hash technique to generate an index where an element is to be inserted or is to be located.
+Hashing is a technique to convert a range of key values into a range of indexes of an array.
+
+The following are the basic primary operations of a hash table.
+
+Search
+Searches an element in a hash table.
+Insert
+Inserts an element in a hash table.
+Delete
+Deletes an element from a hash table.
+
+ALGORITHM hash
+VAR
+   // declaring hash table
+   htab : HASH_TABLE<INTEGER,STRING>;
+   // HASH_TABLE<Key_type,Value_type>
+  
+BEGIN
+   htab : HASH_TABLE<INTEGER,STRING>;
+
+   htab.insert(0,"zero");
+   htab.insert(1,"one");
+   htab.insert(2,"two");
+   htab.insert(3,"three");
+   Write(htab);
+
+   htab.lookup(0); // TRUE
+   htab.lookup(5); // FALSE
+
+
+   htab.get(0); // "zero"
+
+   htab.delete(0);
+
+   // duplicate key
+   htab.insert(3,"three-a");
+   htab.insert(3,"three-b");
+
+   htab.get(3) // "three-b"
+   // there is no duplicated key (after the execution this
+   // instruction will delete the first value, and replace it the second)
+
+   // duplicate value
+   htab.insert(3,"three-a");
+   htab.insert(4,"three-a");
+
+   // hash function
+   HASH_TABLE<STRING,CHAR>
+   // this is the way to declare a hash function
+   // we'll see it more in the function course
+
+   FUNCTION hash_function(STRING str) : INTEGER
+   BEGIN
+       RETURN str.length;
+   END
+END
+
+
+array : y is the first non-repeated-character
+a = 2
+r = 2
+y = 1
+go my code : g is the first non-repeated-character
+
+ALGORITHM first_non_repeated_char
+VAR
+   htab : HASH_TABLE<CHAR,INTEGER>;
+   str : STRING[50];
+   i,count : INTEGER;
+   ch : CHAR;
+BEGIN
+   Read(str);
+// first we browse the string to define the count of each character
+   FOR i FROM 0 TO str.length -1 STEP 1  DO
+       IF (htab.lookup(str[i]) = TRUE) THEN
+           count := htab.get(str[i]);
+           htab.insert(str[i],count+1);
+       ELSE
+           htab.insert(str[i],1);
+       END_IF
+   END_FOR
+// Now we loop the hash table to extract the first unique character
+   FOR i FROM 0 TO str.length -1 STEP 1  DO
+       IF (htab.get(str[i]) = 1) THEN
+           ch := str[i];
+           BREAK;
+       END_IF
+   END_FOR
+
+   Write(ch);
+END
+
+
+-Linked List:
+We use Linked List instead of an Array, when we don’t know a priori the number of elements to store.
+Data − Each node of a linked list can store a data from any type (Simple, Struct or other data ).
+Next − Each link of a linked list contains a link to the next link called Next.
+LinkedList − A Linked List contains the connection link to the first link called First.
+
+
+For example :
+x : INTEGER := 5;
+p : ^INTEGER := x;
+
+Here, x is an integer that contain variable 5, and p is the pointer pointing on x, meaning contain the memory address where x is stored.
+Linked List is not a type, we can declare it using struct, we choose then the data type inside the struct.
+
+List :  STRUCT
+                data : INTEGER;
+                next : ^List;
+            END_STRUCT
+
+Practicing with Linked List
+
+ALGORITHM create_linked_list
+VAR
+   List:   STRUCT
+               data : CHAR; // here we define the data type of our list
+               next :  List; // here we define the pointer to next element
+           END_STRUCT
+   first : ^List := NULL; // here we define the first pointer which is
+   //initialized to null, meaning it's an empty pointer
+   p : ^List := NULL;
+   c   : CHAR;
+   i :INTEGER :=0;
+BEGIN
+   WHILE (i<3) DO
+       // read a character to add to list
+       Read(c);
+       // create() is to allocate memory and create a node
+       // free() is to delete a pointer
+       p := create(List);
+       // insert data in the node
+       p^.data := c;
+       // link first to p inserting in the head of the list
+       p^.next := first;
+       first := p;
+       i := i+1;
+   END_WHILE
+END
